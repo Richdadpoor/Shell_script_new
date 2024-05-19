@@ -1,5 +1,6 @@
 #!/bin/bash
 
+helper()
 # GitHub API URL
 API_URL="https://api.github.com"
 
@@ -40,3 +41,13 @@ function list_users_with_read_access {
 
 echo "Listing users with read access to ${REPO_OWNER}/${REPO_NAME}..."
 list_users_with_read_access
+
+function helper {
+    no_of_arg = 2;
+    if ($# -ne $no_of_arg);
+    then
+      echo"Please check your arguments"
+      echo"Please enter organisation name & Repo name"
+}
+
+
