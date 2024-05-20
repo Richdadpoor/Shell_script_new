@@ -1,6 +1,13 @@
 #!/bin/bash
 
-helper()
+function helper {
+	no_of_args=2
+	if [ "$#" -lt "$no_of_args" ]; then
+		echo "Provide correct number of arguments"
+	fi
+}
+helper
+
 # GitHub API URL
 API_URL="https://api.github.com"
 
@@ -26,7 +33,7 @@ function list_users_with_read_access {
     local endpoint="repos/${REPO_OWNER}/${REPO_NAME}/collaborators"
 
     # Fetch the list of collaborators on the repository
-    collaborators="$(github_api_get "$endpoint")"
+    collaborators="$(github_api_get "$endpoint" | jq -r '.[ ] | select(.permissions.pull == true) | .login')"
 
     # Display the list of collaborators with read access
     if [[ -z "$collaborators" ]]; then
@@ -41,13 +48,5 @@ function list_users_with_read_access {
 
 echo "Listing users with read access to ${REPO_OWNER}/${REPO_NAME}..."
 list_users_with_read_access
-
-function helper {
-    no_of_arg = 2;
-    if ($# -ne $no_of_arg);
-    then
-      echo"Please check your arguments"
-      echo"Please enter organisation name & Repo name"
-}
 
 
